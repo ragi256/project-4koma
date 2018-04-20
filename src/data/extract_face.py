@@ -26,10 +26,11 @@ def parser():
 
 
 def get_cascade_file(cascade_file_name=CASCADE_FILE_NAME, cascade_url=CASCADE_URL):
-    with urlopen(cascade_url) as response, open(cascade_file_name, 'w') as xml_file:
+    cascade_file_path = 'models/' + cascade_file_name
+    with urlopen(cascade_url) as response, open(cascade_file_path, 'w') as xml_file:
         xml = response.read().decode('utf-8')
         xml_file.write(xml)
-        return cascade_file_name
+        return cascade_file_path
 
 
 def detect_faces(image, cascade):
@@ -69,8 +70,8 @@ if __name__ == '__main__':
     if not (volume_num or all_flag):
         raise 'Need option -v or -a.'
 
-    cascade_file_name = get_cascade_file()
-    cascade = cv2.CascadeClassifier(cascade_file_name)
+    cascade_file_path = get_cascade_file()
+    cascade = cv2.CascadeClassifier(cascade_file_path)
 
     series_path = Path(series_dir).resolve()
     if all_flag:
